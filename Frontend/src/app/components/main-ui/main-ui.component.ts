@@ -3,18 +3,26 @@ import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Tasks } from 'src/app/shared/models/tasks.model';
 import { TasksService } from 'src/app/shared/services/tasks.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-main-ui',
   templateUrl: './main-ui.component.html',
   styleUrls: ['./main-ui.component.css'],
-  providers: [TasksService]
+  providers: [TasksService, DatePipe]
 })
 export class MainUiComponent implements OnInit {
   addNewTask = false;
   tasks: any;
+  currentDate: any = new Date();
 
-  constructor(public taskService: TasksService, private router: Router) { }
+  constructor(
+    public taskService: TasksService,
+    private router: Router,
+    private datePipe: DatePipe
+    ) {
+      this.currentDate = this.datePipe.transform(this.currentDate, 'EEEE, MMMM d, y');
+    }
 
   ngOnInit(): void {
     this.resetAddTaskForm();
